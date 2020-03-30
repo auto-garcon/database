@@ -1,3 +1,4 @@
+DELIMITER //
 CREATE PROCEDURE CreateNewMenu(IN startTime TIME, IN endTime time, IN mStatus INT, IN  menuName varchar(255), IN restaurantID INT, OUT menuID INT) 
   BEGIN 
     INSERT INTO Menu(menuStatus, menuName, restaurantID) 
