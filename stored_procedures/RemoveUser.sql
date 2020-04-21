@@ -1,4 +1,5 @@
-CREATE DEFINER=`masterUser`@`%` PROCEDURE `RemoveUser`(IN userID INT )
+CREATE DEFINER=`masterUser`@`%` PROCEDURE `RemoveUser`(IN uID INT )
 BEGIN
-	DELETE FROM Users WHERE userID = userID;
+	DELETE FROM Orders WHERE userID = uID;
+	DELETE FROM Users WHERE userID = uID;
 END

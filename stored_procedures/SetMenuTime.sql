@@ -3,5 +3,5 @@ BEGIN
 	INSERT into MenuTimes(menuID, startTime, endTime)
     VALUES (menuID, startTime, endTime);
     
-    SELECT LAST_INSERT_ID();
+    SELECT LAST_INSERT_ID() AS newTimeID;
 END

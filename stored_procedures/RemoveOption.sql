@@ -1,4 +1,6 @@
-CREATE DEFINER=`masterUser`@`%` PROCEDURE `RemoveOption`(IN optionID INT )
+CREATE DEFINER=`masterUser`@`%` PROCEDURE `RemoveOption`(IN oID INT )
 BEGIN
-	DELETE FROM Options WHERE optionID = optionID;
+	UPDATE Options
+    SET optionStatus = 0
+    WHERE optionID = oID;
 END

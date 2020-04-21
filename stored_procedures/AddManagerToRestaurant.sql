@@ -3,5 +3,5 @@ BEGIN
 	INSERT INTO RestaurantManagers(userID, restaurantID)
     VALUES (userID, restaurantID);
     
-    SELECT LAST_INSERT_ID();
+    SELECT LAST_INSERT_ID() AS newManagerID;
 END

@@ -3,6 +3,6 @@ BEGIN
 	INSERT INTO MenuContains(menuID, menuItemID, price)
     VALUES (mID, iID, iPrice);
     
-    SELECT iID;
+    SELECT LAST_INSERT_ID() AS newMenuContainsID;
     
 END
