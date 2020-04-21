@@ -1,12 +1,11 @@
 CREATE DEFINER=`masterUser`@`%` PROCEDURE `GetTotalPriceOfOrder`(IN orderIDToGet INT)
 BEGIN
-	DECLARE itemBaseCost, optionsCost, costBeforeTax, salesTaxCost, totalCost INT;
+	DECLARE itemBaseCost, optionsCost, costBeforeTax, salesTaxCost, totalCost DECIMAL(10,2);
     DECLARE taxPercent DECIMAL(10,2);
     
     -- Get cost of all items together --
-	SELECT SUM(MenuContains.price * OrderItem.quantity) INTO itemBaseCost
+	SELECT SUM(OrderItem.price) INTO itemBaseCost
 	FROM OrderItem
-	JOIN MenuContains ON OrderItem.menuItemID = MenuContains.menuItemID
 	WHERE orderID = orderIDToGet;
     
     -- Get cost of all options added to items -- 
@@ -26,6 +25,12 @@ BEGIN
     SET salesTaxCost = costBeforeTax * taxPercent;
     SET totalCost = costBeforeTax + salesTaxCost;
     
-    SELECT totalCost;
+    -- store in temp table for outer calls to use
+    DROP TABLE IF EXISTS tmp;
+    CREATE TEMPORARY TABLE tmp(c1 DECIMAL(10,2), c2 DECIMAL(10,2), c3 DECIMAL(10,2));
+    INSERT INTO tmp(c1,c2,c3)
+    VALUES(totalCost,salesTaxCost,costBeforeTax);
+    
+    SELECT totalCost, salesTaxCost, costBeforeTax;
     
 END

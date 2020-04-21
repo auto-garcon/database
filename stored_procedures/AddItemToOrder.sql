@@ -1,7 +1,13 @@
-CREATE DEFINER=`masterUser`@`%` PROCEDURE `AddItemToOrder`(IN orderIDToAddTo INT, IN menuItemIDToAdd INT, IN quantityToAdd INT, IN commentsToAdd TEXT)
+CREATE DEFINER=`masterUser`@`%` PROCEDURE `AddItemToOrder`(IN orderIDToAddTo INT, IN menuItemIDToAdd INT, IN menuID INT, IN quantityToAdd INT, IN commentsToAdd TEXT)
 BEGIN
-	INSERT INTO OrderItem (menuItemID, quantity, comments, orderID)
-    VALUES (menuItemIDToAdd, quantityToAdd, commentsToAdd, orderIDToAddTo);
+	DECLARE inputPrice DECIMAL(10,2);
+	SELECT price
+    FROM MenuContains 
+    WHERE MenuContains.menuId = menuID AND MenuContains.menuItemID = menuItemIDToAdd INTO inputPrice;
     
-    SELECT LAST_INSERT_ID();
+    
+	INSERT INTO OrderItem (menuItemID, quantity, comments, orderID, price)
+    VALUES (menuItemIDToAdd, quantityToAdd, commentsToAdd, orderIDToAddTo, inputPrice * quantityToAdd);
+    
+    SELECT LAST_INSERT_ID() AS newOrderItemID;
 END

@@ -1,6 +1,6 @@
-CREATE DEFINER=`masterUser`@`%` PROCEDURE `GetUserIdByEmail`(IN email VARCHAR(45) )
+CREATE DEFINER=`masterUser`@`%` PROCEDURE `GetUserIdByEmail`(IN emailAddress VARCHAR(45) )
 BEGIN
 	SELECT userID
     FROM Users
-    WHERE email = email;
+    WHERE email = emailAddress;
 END
