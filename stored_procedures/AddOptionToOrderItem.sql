@@ -3,5 +3,5 @@ BEGIN
 	INSERT INTO OrderItemHasOptions(orderItemID, optionID)
     VALUES (orderItemID, optionID);
     
-    SELECT LAST_INSERT_ID();
+    SELECT LAST_INSERT_ID() AS newOrderItemOptionID;
 END

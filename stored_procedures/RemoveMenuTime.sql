@@ -1,5 +1,5 @@
-CREATE DEFINER=`masterUser`@`%` PROCEDURE `RemoveMenuTime`(IN timeID INT)
+CREATE DEFINER=`masterUser`@`%` PROCEDURE `RemoveMenuTime`(IN tID INT)
 BEGIN
 	DELETE FROM MenuTimes
-    WHERE (timeID = timeID);
+    WHERE (timeID = tID);
 END

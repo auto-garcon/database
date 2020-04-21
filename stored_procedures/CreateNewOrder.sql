@@ -1,7 +1,7 @@
-CREATE DEFINER=`masterUser`@`%` PROCEDURE `CreateNewOrder`(IN tableID INT, IN orderTime INT, IN chargeAmount DECIMAL(10,2), IN customerID INT )
+CREATE DEFINER=`masterUser`@`%` PROCEDURE `CreateNewOrder`(IN tableID INT, IN customerID INT )
 BEGIN
-	INSERT INTO Orders(tableID, orderTime, chargeAmount, userID, orderStatus)
-    VALUES (tableID, orderTime, chargeAmount, customerID, 0);
+	INSERT INTO Orders(tableID, orderTime, userID, orderStatus)
+    VALUES (tableID, NOW(), customerID, 0);
     
-    SELECT LAST_INSERT_ID();
+    SELECT LAST_INSERT_ID() AS newOrderID;
 END
