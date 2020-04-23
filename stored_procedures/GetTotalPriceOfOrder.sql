@@ -1,7 +1,6 @@
 CREATE DEFINER=`masterUser`@`%` PROCEDURE `GetTotalPriceOfOrder`(IN orderIDToGet INT)
 BEGIN
-	DECLARE itemBaseCost, optionsCost, costBeforeTax, salesTaxCost, totalCost DECIMAL(10,2);
-    DECLARE taxPercent DECIMAL(10,2);
+	DECLARE itemBaseCost, optionsCost, costBeforeTax, taxPercent, salesTaxCost, totalCost DECIMAL(10,2);
     
     -- Get cost of all items together --
 	SELECT SUM(OrderItem.price) INTO itemBaseCost
@@ -20,6 +19,18 @@ BEGIN
     FROM Restaurant WHERE restaurantID IN(
 		SELECT restaurantID FROM RestaurantTables
 		WHERE tableID IN (SELECT tableID FROM Orders WHERE orderID = orderIDToGet)) LIMIT 1;
+        
+	-- Account for nulls --
+    IF(itemBaseCost IS NULL)
+		THEN SET itemBaseCost = 0.0;
+	END IF;
+    IF(optionsCost IS NULL)
+		THEN SET optionsCost = 0.0;
+	END IF;
+    IF(taxPercent IS NULL)
+		THEN SET taxPercent = 0.0;
+	END IF;
+    
     
     SET costBeforeTax = itemBaseCost + optionsCost;
     SET salesTaxCost = costBeforeTax * taxPercent;
