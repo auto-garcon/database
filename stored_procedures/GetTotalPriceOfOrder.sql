@@ -18,7 +18,10 @@ BEGIN
     SELECT Restaurant.salesTax INTO taxPercent
     FROM Restaurant WHERE restaurantID IN(
 		SELECT restaurantID FROM RestaurantTables
-		WHERE tableID IN (SELECT tableID FROM Orders WHERE orderID = orderIDToGet)) LIMIT 1;
+		WHERE tableID IN (
+			SELECT tableID 
+            FROM Orders 
+            WHERE orderID = orderIDToGet)) LIMIT 1;
         
 	-- Account for nulls --
     IF(itemBaseCost IS NULL)
@@ -31,17 +34,18 @@ BEGIN
 		THEN SET taxPercent = 0.0;
 	END IF;
     
-    
+    -- Sum up the cost values --
     SET costBeforeTax = itemBaseCost + optionsCost;
     SET salesTaxCost = costBeforeTax * taxPercent;
     SET totalCost = costBeforeTax + salesTaxCost;
     
-    -- store in temp table for outer calls to use
+    -- Store in temp table for outer calls to use
     DROP TABLE IF EXISTS tmp;
     CREATE TEMPORARY TABLE tmp(c1 DECIMAL(10,2), c2 DECIMAL(10,2), c3 DECIMAL(10,2));
     INSERT INTO tmp(c1,c2,c3)
     VALUES(totalCost,salesTaxCost,costBeforeTax);
     
+    -- Return the costs to the caller
     SELECT totalCost, salesTaxCost, costBeforeTax;
     
 END

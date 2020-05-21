@@ -1,5 +1,6 @@
-CREATE DEFINER=`masterUser`@`%` PROCEDURE `GetTableByAlexaID`(IN aID VARCHAR(100))
-BEGIN
-	SELECT tableID
-    FROM AutoGarcon.RestaurantTables WHERE alexaID = aID;
+CREATE DEFINER=`masterUser`@`%` PROCEDURE `GetTableByAlexaID`( IN aID VARCHAR(200) )
+BEGIN 
+	-- Gets the table that corresponds to the input alexa ID
+	SELECT * FROM AutoGarcon.RestaurantTables
+	WHERE alexaID = aID; 
 END
